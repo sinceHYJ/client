@@ -108,6 +108,7 @@ func TransCallDtmExt(tb *TransBase, body interface{}, operation string) (*resty.
 	}
 	rc := GetRestyClient2(time.Duration(tb.RequestTimeout) * time.Second)
 	resp, err := rc.R().
+		SetHeaderMultiValues(injectTelemetryHttpCtx(tb.Context)).
 		SetBody(body).Post(fmt.Sprintf("%s/%s", tb.Dtm, operation))
 	if err != nil {
 		return nil, err
