@@ -65,6 +65,15 @@ func TccFromQuery(qs url.Values) (*Tcc, error) {
 	return tcc, nil
 }
 
+// TccFromQueryCtx tcc from request info with ctx param
+func TccFromQueryCtx(ctx context.Context, qs url.Values) (*Tcc, error) {
+	tcc := &Tcc{TransBase: *dtmimp.TransBaseFromQuery(ctx, qs)}
+	if tcc.Dtm == "" || tcc.Gid == "" {
+		return nil, fmt.Errorf("bad tcc info. dtm: %s, gid: %s parentID: %s", tcc.Dtm, tcc.Gid, tcc.BranchID)
+	}
+	return tcc, nil
+}
+
 // CallBranch call a tcc branch
 func (t *Tcc) CallBranch(body interface{}, tryURL string, confirmURL string, cancelURL string) (*resty.Response, error) {
 	branchID := t.NewSubBranchID()

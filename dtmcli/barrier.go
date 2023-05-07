@@ -105,7 +105,7 @@ func (bb *BranchBarrier) Call(tx *sql.Tx, busiCall BarrierBusiFunc) (rerr error)
 
 // CallWithDB the same as Call, but with *sql.DB
 func (bb *BranchBarrier) CallWithDB(db *sql.DB, busiCall BarrierBusiFunc) error {
-	tx, err := db.Begin()
+	tx, err := db.BeginTx(bb.Ctx, nil)
 	if err == nil {
 		err = bb.Call(tx, busiCall)
 	}
