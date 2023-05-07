@@ -19,7 +19,7 @@ func (wf *Workflow) getProgress() (*dtmgpb.DtmProgressesReply, error) {
 			dtmgimp.GetDtmRequest(wf.TransBase), &reply)
 		return &reply, err
 	}
-	resp, err := dtmcli.GetRestyClient().R().SetBody(wf.TransBase).Post(wf.Dtm + "/prepareWorkflow")
+	resp, err := dtmcli.GetRestyClient().R().SetHeaderMultiValues(injectTelemetryHttpCtx(wf.Context)).SetBody(wf.TransBase).Post(wf.Dtm + "/prepareWorkflow")
 	var reply dtmgpb.DtmProgressesReply
 	if err == nil {
 		uo := protojson.UnmarshalOptions{

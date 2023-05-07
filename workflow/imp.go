@@ -191,6 +191,7 @@ func (wf *Workflow) recordedDoInner(fn func(bb *dtmcli.BranchBarrier) *stepResul
 		Gid:       wf.Gid,
 		BranchID:  branchID,
 		Op:        wf.currentOp,
+		Ctx:       wf.Context,
 	}
 	r = fn(bb)
 	err := wf.saveResult(branchID, wf.currentOp, r)
